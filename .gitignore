@@ -67,3 +67,7 @@ vcpkg_installed/
 # test output & cache
 Testing/
 .cache/
+
+#mac folder metadata and misc files
+.DS_Store
+*.dSYM
