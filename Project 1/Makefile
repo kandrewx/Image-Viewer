@@ -6,11 +6,11 @@ OFILES = \
 ROOTDIR = .
 LIB = $(ROOTDIR)/lib/libstarter.a
 
-GLLDFLAGS     = -framework glut -framework OpenGL -lm
+GLLDFLAGS     = -framework glut -framework OpenGL -lm -lOpenImageIO
 
-CXX = g++-16 -Wall -g -O2 -fPIC $(DEFINES) -fopenmp -std=c++14
+CXX = g++-16 -Wall -g -O2 -fPIC $(DEFINES) -fopenmp -std=c++17
 
-INCLUDES =  -I ./include/ -I /usr/local/include/ -I/usr/include/
+INCLUDES =  -I ./include/ -I /usr/local/include/ -I/usr/include/ -I/opt/homebrew/include -L/opt/homebrew/lib
 
 
 .C.o:
