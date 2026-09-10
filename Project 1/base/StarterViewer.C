@@ -16,7 +16,7 @@
 #include <OpenGL/gl.h>   // OpenGL itself.
 #include <OpenGL/glu.h>  // GLU support library.
 #include <GLUT/glut.h> // GLUT support library.
-
+#include <OpenImageIO/imageio.h> // OpenImageIO
 
 
 
@@ -113,6 +113,8 @@ void StarterViewer::Init( const std::vector<std::string>& args )
       argv[i] = new char[args[i].length() + 1];
       std::strcpy(argv[i], args[i].c_str());
    }
+    
+    //read the file somehow
 
    string window_title = title;
 
@@ -180,6 +182,10 @@ void StarterViewer::Keyboard( unsigned char key, int x, int y )
          camera_fov *= 1.01;
          if( camera_fov > 170.0){ camera_fov = 170.0; }
 	 break;
+       case 'j':
+           //write jpeg image called demowrite.jpeg
+           
+           break;
       case '+':
       case '=':
          ComputeEyeShift(0.07);
