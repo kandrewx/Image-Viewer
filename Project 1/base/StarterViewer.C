@@ -114,8 +114,37 @@ void StarterViewer::Init( const std::vector<std::string>& args )
       std::strcpy(argv[i], args[i].c_str());
    }
     
-    //read the file somehow
-
+    //read the file
+    //TODO: turn these chunks of code into an img class of sorts
+    const char* filename;
+    for ( int i=0;i<argc;i++;filename==nullptr)
+    {
+        if (argv[i] == '-image')
+        {
+            filename = argv[i+1];
+        }
+    }
+    
+    auto pixels = std::unique_ptr<unsigned char[]>(new unsigned char[width * height * nchannels]);
+    if (filename!=nullptr)
+    {
+        auto inp = OIIO::ImageInput::open (filename);
+        const ImageSpec &spec = inp->spec();
+        width = spec.width;
+        height = spec.height;
+        int nchannels = spec.nchannels;
+        
+        inp->read_image(0, 0, 0, nchannels, TypeDesc::FLOAT, &pixels[0]);
+        
+        inp->close();
+    }
+    
+    if (pixels!=nullptr)
+    {
+        //read into glut?
+        //TODO: figure that out
+    }
+        
    string window_title = title;
 
    glutInit( &argc, argv );
