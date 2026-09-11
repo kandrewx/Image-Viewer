@@ -117,32 +117,29 @@ void StarterViewer::Init( const std::vector<std::string>& args )
     //read the file
     //TODO: turn these chunks of code into an img class of sorts
     const char* filename;
-    for ( int i=0;i<argc;i++;filename==nullptr)
+    for ( int i=0;(i<argc) & (filename==nullptr);i++)
     {
-        if (argv[i] == '-image')
+        if (strcmp(argv[i], "-image") == 0)
         {
             filename = argv[i+1];
         }
     }
     
-    auto pixels = std::unique_ptr<unsigned char[]>(new unsigned char[width * height * nchannels]);
+    std::unique_ptr<unsigned char []> pixels;
     if (filename!=nullptr)
     {
         auto inp = OIIO::ImageInput::open (filename);
-        const ImageSpec &spec = inp->spec();
+        const OIIO::ImageSpec &spec = inp->spec();
         width = spec.width;
         height = spec.height;
         int nchannels = spec.nchannels;
         
-        inp->read_image(0, 0, 0, nchannels, TypeDesc::FLOAT, &pixels[0]);
+        pixels = std::unique_ptr<unsigned char[]>(new unsigned char[width * height * nchannels]);
+        
+        inp->read_image(0, 0, 0, nchannels, OIIO::TypeDesc::FLOAT, &pixels[0]);
+        
         
         inp->close();
-    }
-    
-    if (pixels!=nullptr)
-    {
-        //read into glut?
-        //TODO: figure that out
     }
         
    string window_title = title;
@@ -161,6 +158,12 @@ void StarterViewer::Init( const std::vector<std::string>& args )
    glutMotionFunc( &cbMotionFunc );
    glutMouseFunc( &cbMouseFunc );
    glutReshapeFunc( &cbReshapeFunc );
+    
+    if (pixels!=nullptr)
+    {
+        //read into glut?
+        //TODO: figure that out
+    }
 
    initialized = true;
    cout << "StarterViewer Initialized\n";

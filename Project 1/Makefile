@@ -6,11 +6,11 @@ OFILES = \
 ROOTDIR = .
 LIB = $(ROOTDIR)/lib/libstarter.a
 
-GLLDFLAGS     = -framework glut -framework OpenGL -lm -lOpenImageIO
+GLLDFLAGS     = -framework glut -framework OpenGL -lm -L/opt/homebrew/opt/openimageio/lib
 
-CXX = g++-16 -Wall -g -O2 -fPIC $(DEFINES) -fopenmp -std=c++17
+CXX = g++-16 -Wall -g -O2 -fPIC $(DEFINES) -fopenmp -std=c++17 -Wno-deprecated-declarations
 
-INCLUDES =  -I ./include/ -I /usr/local/include/ -I/usr/include/ -I/opt/homebrew/include -L/opt/homebrew/lib
+INCLUDES =  -I ./include/ -I /usr/local/include/ -I/usr/include/ -I/opt/homebrew/include -L/opt/homebrew/lib -L/opt/homebrew/opt
 
 
 .C.o:
