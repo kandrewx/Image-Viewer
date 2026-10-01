@@ -46,13 +46,8 @@ void ImgProc::load( const std::string &filename ) {
     
     clear(spec.width, spec.height, spec.nchannels);
     
-    auto pixels = std::unique_ptr<float[]>(new float[Nx * Ny * Nc]);
-    inp->read_image(0, 0, 0, Nc, OIIO::TypeDesc::FLOAT, &pixels[0]);
-    
-#pragma omp parallel for
-    for (int i = 0; i < Nsize; i++) {
-        img_data[i] = pixels[i];
-    }
+    img_data = std::unique_ptr<float[]>(new float[Nx * Ny * Nc]);
+    inp->read_image(0, 0, 0, Nc, OIIO::TypeDesc::FLOAT, &img_data[0]);
     
     inp->close();
 }
