@@ -125,6 +125,9 @@ namespace starter{
         if (filename != nullptr) {
             image.load(filename);
         }
+        else {
+            cout << "To load an image, use flag -image filename";
+        }
         width = image.nx();
         height = image.ny();
         
@@ -275,6 +278,7 @@ namespace starter{
         cout << "r             reset sim parameters\n";
         cout << "h             home display parameters\n";
         cout << "u             display this usage message\n";
+        cout << "j             write current display to jpeg file\n";
         cout << "--------------------------------------------------------------\n";
     }
     
