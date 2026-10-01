@@ -85,6 +85,13 @@ void ImgProc::set_value( int i, int j, const std::vector<float>& pixel ) {
     return;
 }
 
+void ImgProc::gamma( float s ) {
+#pragma omp parallel for
+    for ( long i = 0; i < Nsize; i++) {
+        img_data[i] = std::pow(img_data[i], s);
+    }
+}
+
 ImgProc::ImgProc( const img::ImgProc& v ) : // copy constructor
 Nx (v.Nx),
 Ny (v.Ny),

@@ -34,6 +34,8 @@ namespace img{
         void value( int i, int j, std::vector<float>& pixel ) const;
         void set_value( int i, int j, const std::vector<float>& pixel );
         
+        void gamma( float s );
+        
         ImgProc( const ImgProc& img ); // copy constructor
         ImgProc& operator=(const ImgProc& img ); // copy assignment
         
