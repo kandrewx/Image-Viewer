@@ -147,6 +147,15 @@ namespace starter{
         
         initialized = true;
         cout << "StarterViewer Initialized\n";
+        
+        if (image.raw() != 0) {
+            if (image.depth() == 3) {
+                glDrawPixels(image.nx(), image.ny(), GL_RGB, GL_FLOAT, image.raw());
+            }
+            else {
+                glDrawPixels(image.nx(), image.ny(), GL_RGBA, GL_FLOAT, image.raw());
+            }
+        }
     }
     
     void StarterViewer::MainLoop()
@@ -169,16 +178,6 @@ namespace starter{
         
         glEnable(GL_DEPTH_TEST);
         glDepthRange( camera_near, camera_far );
-        //code below is actually useful
-        
-        if (image.raw() != 0) {
-            if (image.depth() == 3) {
-                glDrawPixels(image.nx(), image.ny(), GL_RGB, GL_FLOAT, image.raw());
-            }
-            else {
-                glDrawPixels(image.nx(), image.ny(), GL_RGBA, GL_FLOAT, image.raw());
-            }
-        }
     }
     
     
