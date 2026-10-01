@@ -212,6 +212,12 @@ namespace starter{
             case 'j':
                 image.write("demoimage.jpeg");
                 break;
+            case 'g':
+                image.gamma(0.9);
+                break;
+            case 'G':
+                image.gamma(1.111111);
+                break;
             case '+':
                 break;
             case '=':
@@ -279,6 +285,8 @@ namespace starter{
         cout << "h             home display parameters\n";
         cout << "u             display this usage message\n";
         cout << "j             write current display to jpeg file\n";
+        cout << "g             apply gamma of 0.9\n";
+        cout << "G             apply gamma of 1.111111\n";
         cout << "--------------------------------------------------------------\n";
     }
     
