@@ -19,8 +19,6 @@ int main( int argc, char** argv )
     }
     viewer->Init(args);
     
-    viewer->Display();
-    
     viewer->MainLoop();
     
 }
