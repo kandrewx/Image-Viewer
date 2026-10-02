@@ -160,7 +160,7 @@ namespace starter{
         loadImage(image);
     }
     
-    void StarterViewer::loadImage( const img::ImgProc& imageIn) {
+    void StarterViewer::loadImage( const img::ImgProc& imageIn ) {
         if (imageIn.raw() != 0) {
             if (image.depth() == 3) {
                 glDrawPixels(imageIn.nx(), imageIn.ny(), GL_RGB, GL_FLOAT, imageIn.raw());
