@@ -126,6 +126,8 @@ class StarterViewer
     img::ImgProc image;
     img::ImgProc imageOut;
     img::Stencil stencil;
+    
+    void loadImage( img::ImgProc& imageIn );
 
     void ComputeEyeUpRight(int dx, int dy);
     void ComputeEyeShift(float dz);

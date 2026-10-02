@@ -19,12 +19,16 @@ namespace img{
     class Stencil
     {
     public:
+        Stencil();
         Stencil(int halfwidth);
         ~Stencil();
         int halfwidth() const { return half_width; }
         void randomizeStencil();
         float& operator()(int i, int j);
         const float& operator()(int i, int j) const;
+        
+        void BoundedLinearConvolution( const Stencil& stencil, const ImgProc& in, ImgProc& out );
+
     
     private:
         int half_width;
@@ -32,8 +36,6 @@ namespace img{
         float *stencil_values;
     };
 
-    void BoundedLinearConvolution( const Stencil& stencil, const ImgProc& in, ImgProc& out );
-    
 }
 
 #endif

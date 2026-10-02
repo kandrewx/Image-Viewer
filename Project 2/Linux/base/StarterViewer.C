@@ -21,6 +21,8 @@
 #include <iostream>
 #include <sstream>
 #include <cmath>
+#include "Stencil.h"
+#include "ImgProc.h"
 #include "StarterViewer.h"
 #include <cstring>
 
@@ -98,6 +100,7 @@ namespace starter{
     
     {
         image = img::ImgProc();
+        imageOut = img::ImgProc();
         cout << "StarterViewer Loaded\n";
     }
     
@@ -157,19 +160,18 @@ namespace starter{
         initialized = true;
         cout << "StarterViewer Initialized\n";
         
-        loadImage(image);
     }
     
-    void StarterViewer::loadImage( const img::ImgProc& imageIn ) {
+    void StarterViewer::loadImage( img::ImgProc& imageIn ) {
         if (imageIn.raw() != 0) {
-            if (image.depth() == 3) {
+            if (imageIn.depth() == 3) {
                 glDrawPixels(imageIn.nx(), imageIn.ny(), GL_RGB, GL_FLOAT, imageIn.raw());
             }
             else {
                 glDrawPixels(imageIn.nx(), imageIn.ny(), GL_RGBA, GL_FLOAT, imageIn.raw());
             }
         }
-        imageOut = imageIn;
+        StarterViewer::imageOut = imageIn;
     }
     
     void StarterViewer::MainLoop()
@@ -192,6 +194,8 @@ namespace starter{
         
         glEnable(GL_DEPTH_TEST);
         glDepthRange( camera_near, camera_far );
+        
+        loadImage( image );
     }
     
     
@@ -233,7 +237,7 @@ namespace starter{
                 break;
             case 's':
                 stencil.randomizeStencil();
-                img::BoundedLinearConvolution(stencil, image, imageOut);
+                stencil.BoundedLinearConvolution(stencil, imageOut, image);
                 loadImage(imageOut);
                 break;
             case '+':
