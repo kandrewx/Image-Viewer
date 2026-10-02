@@ -32,7 +32,7 @@ namespace img{
         float *stencil_values;
     };
 
-    BoundedLinearConvolution( const Stencil& stencil, const ImgProc& in, ImgProc& out );
+    void BoundedLinearConvolution( const Stencil& stencil, const ImgProc& in, ImgProc& out );
     
 }
 
