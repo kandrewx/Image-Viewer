@@ -305,6 +305,7 @@ namespace starter{
         cout << "j             write current display to jpeg file\n";
         cout << "g             apply gamma of 0.9\n";
         cout << "G             apply gamma of 1.111111\n";
+        cout << "s             make new stencil and apply linear convolution\n";
         cout << "--------------------------------------------------------------\n";
     }
     
