@@ -21,6 +21,7 @@
 #include <string>
 #include <vector>
 
+#include "Stencil.h"
 #include "ImgProc.h"
 
 using namespace std;
@@ -119,6 +120,7 @@ class StarterViewer
     int frame;
     
     img::ImgProc image;
+    img::Stencil stencil;
 
     void ComputeEyeUpRight(int dx, int dy);
     void ComputeEyeShift(float dz);

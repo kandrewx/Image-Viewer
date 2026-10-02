@@ -3,6 +3,7 @@
 OFILES = \
 	 base/StarterViewer.o \
 	 base/ImgProc.o \
+	 base/Stencil.o \
 	 base/simple_viewer.o
 
 ROOTDIR = .

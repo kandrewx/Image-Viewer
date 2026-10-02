@@ -9,6 +9,7 @@
 #define STENCIL_H
 
 #include <random>
+#include <cmath>
 #include "ImgProc.h"
 
 using namespace std;
@@ -21,11 +22,13 @@ namespace img{
         Stencil(int halfwidth);
         ~Stencil();
         int halfwidth() const { return half_width; }
+        void randomizeStencil();
         float& operator()(int i, int j);
         const float& operator()(int i, int j) const;
     
     private:
         int half_width;
+        int stencil_size;
         float *stencil_values;
     };
 
