@@ -82,7 +82,7 @@ void Stencil::BoundedLinearConvolution( const Stencil& stencil, const ImgProc& i
                     int stencili = x_stencil-x_image;
                     const float& stencil_value = stencil(stencili, stencilj);
                     if (y_stencil >= 0 || x_stencil >= 0) {
-                        if (y_stencil <= out.ny() || x_stencil <= out.nx()) {
+                        if (y_stencil < out.ny() || x_stencil < out.nx()) {
                             in.value(x_stencil,y_stencil,sample);
                         }
                     }
