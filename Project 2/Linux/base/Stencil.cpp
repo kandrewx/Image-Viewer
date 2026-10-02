@@ -13,7 +13,7 @@ using namespace img;
 
 Stencil::Stencil(int halfwidth = 1) {
     half_width = halfwidth;
-    stencil_size = (2*halfwidth+1) * (2*halfwidth+1);
+    stencil_size = (2*half_width+1) * (2*half_width+1);
     
     //stencil_values follows leftmost value == [0], next value in row == [1], and so on
     //access specific value by using x + y * (2*halfwidth+1)
@@ -36,46 +36,46 @@ void Stencil::randomizeStencil() {
         stencil_total += stencil_values[i];
     }
     
-    int center = std::ceil( (2*halfwidth+1) / 2 );
-    stencil_value[center + center*(2*halfwidth+1)] += (1 - stencil_total);
+    int center = std::ceil( (2*half_width+1) / 2 );
+    stencil_value[center + center*(2*half_width+1)] += (1 - stencil_total);
 }
 
+//stencil values are centered around the center value so adjustment is needed
 float& Stencil::operator()(int i, int j) {
-    return stencil_values[i + j*(2*halfwidth+1)];
+    return stencil_values[i+half_width + (j+half_width)*(2*half_width+1)];
 }
 
 const float& Stencil::operator()(int i, int j) const {
-    return stencil_values[i + j*(2*halfwidth+1)];
+    return stencil_values[i+half_width + (j+half_width)*(2*half_width+1)];
 }
+
 
 
 void BoundedLinearConvolution( const Stencil& stencil, const ImgProc& in, ImgProc& out ) {
     out.clear( in.nx(), in.ny(), in.depth() );
-    for( int j=0;j<out.ny();j++)
+    for( int y_image=0;y_image<out.ny();y_image++)
     {
-        int jmin = j - stencil.halfwidth();
-        int jmax = j + stencil.halfwidth();
+        int y_image_min = y_image - stencil.halfwidth();
+        int y_image_max = y_image + stencil.halfwidth();
 #pragma omp parallel for
-        for(int i=0;i<out.nx();i++)
+        for(int x_image=0;x_image<out.nx();x_image++)
         {
-            int imin = i - stencil.halfwidth();
-            int imax = i + stencil.halfwidth();
+            int x_image_min = x_image - stencil.halfwidth();
+            int x_image_max = x_image + stencil.halfwidth();
             std::vector<float> pixel(out.depth(),0.0);
             std::vector<float> sample(in.depth(),0.0);
-            for(int jj=jmin;jj<=jmax;jj++)
+            for(int y_stencil=y_image_min;y_stencil<=y_image_max;y_stencil++)
             {
-                int stencilj = jj-j;
-                int jjj = jj;
-                if(jjj < 0 ){ jjj += out.ny(); }
-                if(jjj >= out.ny() ){ jjj -= out.ny(); }
-                for(int ii=imin;ii<=imax;ii++)
+                int stencilj = y_stencil-y_image;
+                for(int x_stencil=x_image_min;x_stencil<=x_image_max;x_stencil++)
                 {
-                    int stencili = ii-i;
-                    int iii = ii;
-                    if(iii < 0 ){ iii += out.nx(); }
-                    if(iii >= out.nx() ){ iii -= out.nx(); }
+                    int stencili = x_stencil-x_image;
                     const float& stencil_value = stencil(stencili, stencilj);
-                    in.value(iii,jjj,sample);
+                    if (y_stencil > 0 || x_stencil > 0) {
+                        if (y_stencil < out.ny() || x_stencil < out.nx()) {
+                            in.value(iii,jjj,sample);
+                        }
+                    }
                     for(size_t c=0;c<sample.size();c++){ pixel[c] += sample[c] * stencil_value; }
                 }
             }
