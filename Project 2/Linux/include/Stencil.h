@@ -8,7 +8,7 @@
 #ifndef STENCIL_H
 #define STENCIL_H
 
-#include <tuple>
+#include <random>
 #include "ImgProc.h"
 
 using namespace std;
@@ -28,6 +28,8 @@ namespace img{
         int half_width;
         float *stencil_values;
     };
+
+    BoundedLinearConvolution( const Stencil& stencil, const ImgProc& in, ImgProc& out );
     
 }
 
