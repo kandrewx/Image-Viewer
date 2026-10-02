@@ -1,7 +1,6 @@
 
 #include <vector>
 #include <string>
-#include "ImgProc.h"
 #include "StarterViewer.h"
 
 using namespace starter;
