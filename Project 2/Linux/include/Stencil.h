@@ -21,7 +21,8 @@ namespace img{
         Stencil(int halfwidth);
         ~Stencil();
         int halfwidth() const { return half_width; }
-        float& operator()(int i, int j) const;
+        float& operator()(int i, int j);
+        const float& operator()(int i, int j) const;
     
     private:
         int half_width;
