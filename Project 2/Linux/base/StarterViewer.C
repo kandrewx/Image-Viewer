@@ -128,8 +128,14 @@ namespace starter{
         else {
             cout << "To load an image, use flag -image filename";
         }
+        
+        fileNumber = 1;
+        outputTitle = "image" + std::to_string(fileNumber) + ".jpeg";
+        
         width = image.nx();
         height = image.ny();
+        
+        stencil = img::Stencil(1);
         
         string window_title = title;
         
@@ -151,14 +157,19 @@ namespace starter{
         initialized = true;
         cout << "StarterViewer Initialized\n";
         
-        if (image.raw() != 0) {
+        loadImage(image);
+    }
+    
+    void StarterViewer::loadImage( const img::ImgProc& imageIn) {
+        if (imageIn.raw() != 0) {
             if (image.depth() == 3) {
-                glDrawPixels(image.nx(), image.ny(), GL_RGB, GL_FLOAT, image.raw());
+                glDrawPixels(imageIn.nx(), imageIn.ny(), GL_RGB, GL_FLOAT, imageIn.raw());
             }
             else {
-                glDrawPixels(image.nx(), image.ny(), GL_RGBA, GL_FLOAT, image.raw());
+                glDrawPixels(imageIn.nx(), imageIn.ny(), GL_RGBA, GL_FLOAT, imageIn.raw());
             }
         }
+        imageOut = imageIn;
     }
     
     void StarterViewer::MainLoop()
@@ -185,8 +196,6 @@ namespace starter{
     
     
     
-    
-    
     void StarterViewer::Reshape( int w, int h )
     {
         width = w;
@@ -210,13 +219,22 @@ namespace starter{
                 if( camera_fov > 170.0){ camera_fov = 170.0; }
                 break;
             case 'j':
-                image.write("demoimage.jpeg");
+                imageOut.write(outputTitle);
+                fileNumber++;
+                outputTitle = "image" + std::to_string(fileNumber) + ".jpeg";
                 break;
             case 'g':
                 image.gamma(0.9);
+                loadImage(image);
                 break;
             case 'G':
                 image.gamma(1.111111);
+                loadImage(image);
+                break;
+            case 's':
+                stencil.randomizeStencil();
+                img::BoundedLinearConvolution(stencil, image, imageOut);
+                loadImage(imageOut);
                 break;
             case '+':
                 break;

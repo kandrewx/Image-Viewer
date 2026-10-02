@@ -94,7 +94,9 @@ class StarterViewer
     void Usage();
 
     //! Set the camera for 3D viewing.
-    void SetCameraEyeViewUp( float eyex, float eyey, float eyez, float viewx, float viewy, float viewz, float upx, float upy, float upz ); 
+    void SetCameraEyeViewUp( float eyex, float eyey, float eyez, float viewx, float viewy, float viewz, float upx, float upy, float upz );
+    
+    void loadImage( const img::ImgProc& imageIn );
 
   private:
 
@@ -119,7 +121,10 @@ class StarterViewer
 
     int frame;
     
+    int fileNumber;
+    std::string outputTitle;
     img::ImgProc image;
+    img::ImgProc imageOut;
     img::Stencil stencil;
 
     void ComputeEyeUpRight(int dx, int dy);
