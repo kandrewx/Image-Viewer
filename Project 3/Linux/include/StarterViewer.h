@@ -23,6 +23,8 @@
 
 #include "Stencil.h"
 #include "ImgProc.h"
+#include "Fractals.h"
+#include "Warp.h"
 
 using namespace std;
 
@@ -125,7 +127,14 @@ class StarterViewer
     std::string outputTitle;
     img::ImgProc image;
     img::ImgProc imageOut;
+    
     img::Stencil stencil;
+    
+    img::Point center;
+    double range;
+    int nb_iterations;
+    img::ColorLUT FractalLUT;
+    img::JuliaSet FractalJulia;
     
     void loadImage( img::ImgProc& imageIn );
 

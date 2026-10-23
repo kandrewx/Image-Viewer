@@ -9,16 +9,24 @@
 
 using namespace img;
 
+ColorLUT::ColorLUT() :
+gamma (1.0)
+{}
 
+void ColorLUT::setColors(std::vector< std::vector<float> >& newBands) {
+    for (int i = 0; i < int(newBands.size()); i++) {
+        bands.push_back(newBands[i]);
+    }
+}
 
 void ColorLUT::operator()(const double& value, std::vector<float>& C) const {
     if (value <= 1) {
-        double s = value * bands.length();
+        double s = value * bands.size();
         int m = int(s);
         int m_prime = m + 1;
         double omega = s - m;
         
-        if (m_prime > bands.length()) {
+        if (m_prime > int(bands.size())) {
             m_prime = m;
         }
         

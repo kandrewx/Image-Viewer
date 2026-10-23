@@ -21,10 +21,10 @@ class ColorLUT
 {
 public:
     
-    ColorLUT(double gamma = 1.0);
+    ColorLUT();
     ~ColorLUT(){}
     
-    void setColors(std::vector< std::vector<float> > newBands) { bands = newBands; }
+    void setColors(std::vector< std::vector<float> >& newBands);
     
     // Generate color value from the input value
     void operator()(const double& value, std::vector<float>& C) const;

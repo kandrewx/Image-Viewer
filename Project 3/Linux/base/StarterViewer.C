@@ -21,10 +21,12 @@
 #include <iostream>
 #include <sstream>
 #include <cmath>
+#include <cstring>
 #include "Stencil.h"
 #include "ImgProc.h"
 #include "StarterViewer.h"
-#include <cstring>
+#include "Fractals.h"
+#include "Warp.h"
 
 
 using namespace std;
@@ -140,6 +142,13 @@ namespace starter{
         
         stencil = img::Stencil(1);
         
+        center.x = 0.03811;
+        center.y = 0.01329;
+        range = 1.0;
+        nb_iterations = 100;
+        FractalLUT = img::ColorLUT();
+        FractalJulia = img::JuliaSet(center, nb_iterations, 2);
+        
         string window_title = title;
         
         glutInit( &argc, argv );
@@ -227,6 +236,8 @@ namespace starter{
                 fileNumber++;
                 outputTitle = "image" + std::to_string(fileNumber) + ".jpeg";
                 break;
+            case 'J':
+                break;
             case 'g':
                 image.gamma(0.9);
                 loadImage(image);
@@ -307,6 +318,7 @@ namespace starter{
         cout << "h             home display parameters\n";
         cout << "u             display this usage message\n";
         cout << "j             write current display to jpeg file\n";
+        cout << "J             replace image with rendition of the Julia Set\n";
         cout << "g             apply gamma of 0.9\n";
         cout << "G             apply gamma of 1.111111\n";
         cout << "s             make new stencil and apply linear convolution\n";
