@@ -131,8 +131,10 @@ class StarterViewer
     img::Stencil stencil;
     
     img::Point center;
-    double range;
-    int nb_iterations;
+    std::vector<double> ranges;
+    std::vector<int> nb_iterations;
+    img::Point zc;
+    std::vector< std::vector<float> > colorLUT;
     img::ColorLUT FractalLUT;
     img::JuliaSet FractalJulia;
     

@@ -37,8 +37,6 @@ private:
 };
 
 
-void ApplyFractalWarpLUT( const Point& center, const double range, const Warp& w, const ColorLUT& lut, ImgProc& out );
-
 
 class JuliaSet : public Warp
 {
@@ -49,6 +47,8 @@ public:
     ~JuliaSet(){}
     
     Point operator()(const Point& P) const;
+    
+    void ApplyJuliaWarpLUT( const Point& center, const double range, const Warp& w, const ColorLUT& lut, ImgProc& out );
     
 private:
     

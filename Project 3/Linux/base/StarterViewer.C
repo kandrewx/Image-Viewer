@@ -144,10 +144,34 @@ namespace starter{
         
         center.x = 0.03811;
         center.y = 0.01329;
-        range = 1.0;
-        nb_iterations = 100;
+        ranges = {1.0, 1.0e-3, 1.0e-6};
+        nb_iterations = {100, 250, 500};
+        zc.x = 0.8 * cos(254.3 * 3.14159265/180.0);
+        zc.y = 0.8 * sin(254.3 * 3.14159265/180.0);
+        
+        std::vector<float> rgb_values;
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                switch (j % 3) {
+                    case 0:
+                        rgb_values = {0.1, 0.3, 1};
+                        break;
+                    case 1:
+                        rgb_values = {1, 0.6, 0.1};
+                        break;
+                    case 2:
+                        rgb_values = {0.65, 0.24, 0.8};
+                        break;
+                    
+                }
+                colorLUT.push_back( rgb_values );
+            }
+        }
+        
+        
         FractalLUT = img::ColorLUT();
-        FractalJulia = img::JuliaSet(center, nb_iterations, 2);
+        FractalLUT.setColors(colorLUT);
+        FractalJulia = img::JuliaSet(zc, nb_iterations[0], 2);
         
         string window_title = title;
         
@@ -237,6 +261,9 @@ namespace starter{
                 outputTitle = "image" + std::to_string(fileNumber) + ".jpeg";
                 break;
             case 'J':
+                FractalJulia.ApplyJuliaWarpLUT( center, ranges[0], FractalJulia, FractalLUT, image );
+                loadImage(image);
+                outputTitle = "julia.jpeg";
                 break;
             case 'g':
                 image.gamma(0.9);
