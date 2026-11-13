@@ -62,7 +62,7 @@ Point JuliaSet::operator()(const Point& P) const {
     return Pout;
 }
 
-void JuliaSet::ApplyJuliaWarpLUT( const Point& center, const double range,
+void img::ApplyJuliaWarpLUT( const Point& center, const double range,
                                    const Warp& w, const ColorLUT& lut, ImgProc& out ) {
     fractal_t R = 2.0;
     for (int j = 0; j < out.ny(); j++) {

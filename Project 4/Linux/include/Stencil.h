@@ -27,7 +27,6 @@ namespace img{
         float& operator()(int i, int j);
         const float& operator()(int i, int j) const;
         
-        void BoundedLinearConvolution( const Stencil& stencil, const ImgProc& in, ImgProc& out );
 
     
     private:
@@ -35,6 +34,8 @@ namespace img{
         int stencil_size;
         float *stencil_values;
     };
+
+void BoundedLinearConvolution( const Stencil& stencil, const ImgProc& in, ImgProc& out );
 
 }
 

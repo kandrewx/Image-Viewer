@@ -142,7 +142,7 @@ class StarterViewer
     std::vector<float> min;
     std::vector<float> average;
     std::vector<float> stddev;
-    int bins = 500;
+    float bins = 500;
     
     void loadImage( img::ImgProc& imageIn );
 

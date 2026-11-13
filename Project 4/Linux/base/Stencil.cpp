@@ -61,7 +61,7 @@ const float& Stencil::operator()(int i, int j) const {
 
 
 
-void Stencil::BoundedLinearConvolution( const Stencil& stencil, const ImgProc& in, ImgProc& out ) {
+void img::BoundedLinearConvolution( const Stencil& stencil, const ImgProc& in, ImgProc& out ) {
     out.clear( in.nx(), in.ny(), in.depth() );
     for( int y_image=0;y_image<out.ny();y_image++)
     {

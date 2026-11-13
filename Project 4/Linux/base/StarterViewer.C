@@ -27,6 +27,7 @@
 #include "StarterViewer.h"
 #include "Fractals.h"
 #include "Warp.h"
+#include "ImgStats.h"
 
 
 using namespace std;
@@ -249,8 +250,9 @@ namespace starter{
         switch (key)
         {
             case 'C':
-                img::Statistics( in, max, min, average, stddev );
-                img::ContrastConvert( in, average, stddev );
+                img::Statistics( image, max, min, average, stddev );
+                img::ContrastConvert( image, average, stddev, imageOut );
+                loadImage(imageOut);
                 break;
             case 'f':
                 camera_fov /= 1.01;
@@ -269,7 +271,7 @@ namespace starter{
                 fileNumber++;
                 break;
             case 'J':
-                FractalJulia.ApplyJuliaWarpLUT( center, ranges[0], FractalJulia, FractalLUT, image );
+                img::ApplyJuliaWarpLUT( center, ranges[0], FractalJulia, FractalLUT, image );
                 loadImage(image);
                 outputTitle = "julia.jpeg";
                 break;
@@ -288,7 +290,7 @@ namespace starter{
                 break;
             case 's':
                 stencil.randomizeStencil();
-                stencil.BoundedLinearConvolution(stencil, imageOut, image);
+                img::BoundedLinearConvolution(stencil, imageOut, image);
                 loadImage(imageOut);
                 break;
             case '+':
