@@ -6,6 +6,7 @@ OFILES = \
 	 base/Stencil.o \
 	 base/simple_viewer.o \
 	 base/Fractals.o \
+	 base/ImgStats.o \
 
 ROOTDIR = .
 LIB = $(ROOTDIR)/lib/libstarter.a 
