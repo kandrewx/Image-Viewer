@@ -10,19 +10,20 @@
 
 using namespace img;
 
-void Histogram( const ImgProc& in, float low, float high, float resolution, std::vector< std::vector<float> >& histogram ) {
+void Histogram( const ImgProc& in, std::vector<float>& low, std::vector<float>& high, float resolution, std::vector< std::vector<float> >& histogram ) {
     float* raw_pixels = in.raw();
     int channels = in.depth();
     long raw_size = (long)in.nx() * (long)in.ny() * (long)channels;
     
-    float width = (high - low) / resolution;
     
     for (int channel = 0; channel < channels; channel++) {
+        float width = (high[channel] - low[channel]) / resolution;
+        
         histogram.push_back( std::vector<float>(resolution,0.0) );
         
 #pragma omp parallel for
         for (long i = channel; i < raw_size; i += channels) {
-            int bin = int( (raw_pixels[i] - min) / width );
+            int bin = int( (raw_pixels[i] - low[channel]) / width );
             if ( (bin >= 0) && (bin < resolution) ) {
                 histogram[channel][bin]++;
             }
@@ -31,7 +32,7 @@ void Histogram( const ImgProc& in, float low, float high, float resolution, std:
 }
 
 
-void Cumulative( const ImgProc& in, float low, float high, float resolution, std::vector< std::vector<float> >& cumulative ) {
+void Cumulative( const ImgProc& in, std::vector<float>& low, std::vector<float>& high, float resolution, std::vector< std::vector<float> >& cumulative ) {
     int channels = in.depth();
     
     std::vector< std::vector<float> > histogram;
@@ -108,15 +109,17 @@ void ApplyCumulative( const ImgProc& in, float resolution, ImgProc& out ) {
     long raw_size = (long)in.nx() * (long)in.ny() * (long)channels;
     float* img_data = new float[raw_size];
     
-    float high = 1.0;
-    float low = 0.0
+    std::vector<float>& max;
+    std::vector<float>& min;
+    std::vector<float>& average;
+    std::vector<float>& stddev;
     
-    
-    float width = (high - low) / resolution;
-    Cumulative( in, low, high, resolution, std::vector< std::vector<float> >& cumulative );
+    Statistics( in, max, min, average, stddev );
+    Cumulative( in, min, max, resolution, cumulative );
     
     
     for (int channel = 0; channel < channels; channel++) {
+        float width = (high[channel] - low[channel]) / resolution;
 #pragma omp parallel for
         for (long i = channel; i < raw_size; i += channels) {
             int bin = int( (raw_pixels[i] - low) / width );
