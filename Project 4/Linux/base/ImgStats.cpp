@@ -11,7 +11,7 @@
 using namespace img;
 
 void img::Histogram( const ImgProc& in, std::vector<float>& low, std::vector<float>& high, float resolution, std::vector< std::vector<float> >& histogram ) {
-    ImgProc image = in;
+    ImgProc image = ImgProc(in);
     float* raw_pixels = image.raw();
     int channels = in.depth();
     long raw_size = (long)in.nx() * (long)in.ny() * (long)channels;
@@ -63,7 +63,7 @@ void img::Cumulative( const ImgProc& in, std::vector<float>& low, std::vector<fl
 
 void img::Statistics( const ImgProc& in, std::vector<float>& max, std::vector<float>& min, std::vector<float>& ave, std::vector<float>& stddev ) {
     
-    ImgProc image = in;
+    ImgProc image = ImgProc(in);
     float* raw_pixels = image.raw();
     int channels = in.depth();
     long raw_size = (long)in.nx() * (long)in.ny() * (long)channels;
@@ -126,7 +126,7 @@ void img::ContrastConvert( const ImgProc& in, std::vector<float>& ave, std::vect
 
 void img::ApplyCumulative( const ImgProc& in, float resolution, ImgProc& out ) {
     std::vector< std::vector<float> > cumulative;
-    ImgProc image = in;
+    ImgProc image = ImgProc(in);
     float* raw_pixels = image.raw();
     int channels = in.depth();
     long raw_size = (long)in.nx() * (long)in.ny() * (long)channels;
