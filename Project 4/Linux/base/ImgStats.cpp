@@ -102,6 +102,29 @@ void Statistics( const ImgProc& in, std::vector<float>& max, std::vector<float>&
     }
 }
 
+
+void ContrastConvert( const ImgProc& in, std::vector<float>& ave, std::vector<float>& stddev ) {
+    int channels = in.depth();
+    
+    for( int y_image=0;y_image<in.ny();y_image++)
+    {
+#pragma omp parallel for
+        for(int x_image=0;x_image<in.nx();x_image++)
+        {
+            std::vector<float> pixel(channels,0.0);
+            in.value(pixel);
+            
+            for (int c = 0; c < channels; c++) {
+                pixel[c] -= ave[c];
+                pixel[c] /= stddev[c];
+            }
+            
+            in.set_value(pixel);
+        }
+    }
+}
+
+
 void ApplyCumulative( const ImgProc& in, float resolution, ImgProc& out ) {
     std::vector< std::vector<float> > cumulative;
     float* raw_pixels = in.raw();
@@ -109,10 +132,10 @@ void ApplyCumulative( const ImgProc& in, float resolution, ImgProc& out ) {
     long raw_size = (long)in.nx() * (long)in.ny() * (long)channels;
     float* img_data = new float[raw_size];
     
-    std::vector<float>& max;
-    std::vector<float>& min;
-    std::vector<float>& average;
-    std::vector<float>& stddev;
+    std::vector<float> max;
+    std::vector<float> min;
+    std::vector<float> average;
+    std::vector<float> stddev;
     
     Statistics( in, max, min, average, stddev );
     Cumulative( in, min, max, resolution, cumulative );
@@ -122,7 +145,7 @@ void ApplyCumulative( const ImgProc& in, float resolution, ImgProc& out ) {
         float width = (high[channel] - low[channel]) / resolution;
 #pragma omp parallel for
         for (long i = channel; i < raw_size; i += channels) {
-            int bin = int( (raw_pixels[i] - low) / width );
+            int bin = int( (raw_pixels[i] - low[channel]) / width );
             if ( (bin >= 0) && (bin < resolution) ) {
                 img_data[i] = cumulative[channel][bin];
             }

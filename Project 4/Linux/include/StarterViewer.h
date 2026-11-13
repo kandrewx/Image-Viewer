@@ -138,6 +138,12 @@ class StarterViewer
     img::ColorLUT FractalLUT;
     img::JuliaSet FractalJulia;
     
+    std::vector<float> max;
+    std::vector<float> min;
+    std::vector<float> average;
+    std::vector<float> stddev;
+    int bins = 500;
+    
     void loadImage( img::ImgProc& imageIn );
 
     void ComputeEyeUpRight(int dx, int dy);

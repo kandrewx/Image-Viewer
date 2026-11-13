@@ -248,6 +248,10 @@ namespace starter{
     {
         switch (key)
         {
+            case 'C':
+                img::Statistics( in, max, min, average, stddev );
+                img::ContrastConvert( in, average, stddev );
+                break;
             case 'f':
                 camera_fov /= 1.01;
                 break;
@@ -255,10 +259,14 @@ namespace starter{
                 camera_fov *= 1.01;
                 if( camera_fov > 170.0){ camera_fov = 170.0; }
                 break;
+            case 'H':
+                img::ApplyCumulative(image, bins, imageOut);
+                loadImage(imageOut);
+                break;
             case 'j':
+                outputTitle = "image" + std::to_string(fileNumber) + ".jpeg";
                 imageOut.write(outputTitle);
                 fileNumber++;
-                outputTitle = "image" + std::to_string(fileNumber) + ".jpeg";
                 break;
             case 'J':
                 FractalJulia.ApplyJuliaWarpLUT( center, ranges[0], FractalJulia, FractalLUT, image );
@@ -272,6 +280,11 @@ namespace starter{
             case 'G':
                 image.gamma(1.111111);
                 loadImage(image);
+                break;
+            case 'o':
+                outputTitle = "image" + std::to_string(fileNumber) + ".exr";
+                imageOut.write(outputTitle);
+                fileNumber++;
                 break;
             case 's':
                 stencil.randomizeStencil();
@@ -345,10 +358,13 @@ namespace starter{
         cout << "h             home display parameters\n";
         cout << "u             display this usage message\n";
         cout << "j             write current display to jpeg file\n";
-        cout << "J             replace image with rendition of the Julia Set\n";
         cout << "g             apply gamma of 0.9\n";
         cout << "G             apply gamma of 1.111111\n";
         cout << "s             make new stencil and apply linear convolution\n";
+        cout << "J             replace image with rendition of the Julia Set\n";
+        cout << "C             convert image to contrast units\n";
+        cout << "H             equalize image colors according to histogram\n";
+        cout << "o             write current display to exr file\n";
         cout << "--------------------------------------------------------------\n";
     }
     

@@ -24,6 +24,8 @@ void Cumulative( const ImgProc& in, float low, float high, float resolution, std
 
 void Statistics( const ImgProc& in, std::vector<float>& max, std::vector<float>& min, std::vector<float>& ave, std::vector<float>& stddev, std::vector<float>& covariance );
 
+void ContrastConvert( const ImgProc& in, std::vector<float>& ave, std::vector<float>& stddev );
+
 bool ApplyCumulative( const ImgProc& in, float resolution, ImgProc& out );
 
 }
